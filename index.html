@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cruda - Tortillas Gourmet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="site.webmanifest" />
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-green: #1a1f1a;
+            --darker-green: #0f140f;
+            --gold: #d4a853;
+            --light-gold: #e0b866;
+            --stone: #fafaf9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--dark-green);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+
+        nav.scrolled {
+            background-color: rgba(26, 31, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 168, 83, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 3rem;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(26, 31, 26, 0.7), rgba(26, 31, 26, 0.5), var(--dark-green));
+        }
+
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image: radial-gradient(circle, var(--gold) 2px, transparent 2px);
+            background-size: 60px 60px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 64rem;
+            padding: 0 1.5rem;
+        }
+
+        .hero-logo {
+            width: 20rem;
+            max-width: 100%;
+            margin: 0 auto 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .hero-text {
+            font-size: 1.5rem;
+            color: #d1d5db;
+            margin-bottom: 3rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.75;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+        }
+
+        .cta-button {
+            position: relative;
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--gold);
+            color: var(--dark-green);
+            text-decoration: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.7s forwards;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 20px 50px rgba(212, 168, 83, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: var(--light-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            transform: scaleX(1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.2s forwards;
+        }
+
+        .scroll-indicator svg {
+            width: 2rem;
+            height: 2rem;
+            color: var(--gold);
+            animation: bounce 2s infinite;
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title .accent {
+            color: var(--gold);
+        }
+
+        .section-divider {
+            width: 6rem;
+            height: 4px;
+            background-color: var(--gold);
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about {
+            position: relative;
+            background-color: var(--stone);
+            color: black;
+        }
+
+        .about-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            background-image: radial-gradient(circle, var(--gold) 1.5px, transparent 1.5px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.125rem;
+            color: #374151;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            height: 500px;
+        }
+
+        .about-image-bg {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(212, 168, 83, 0.2);
+            transform: rotate(3deg);
+            transition: transform 0.5s ease;
+        }
+
+        .about-image-wrapper:hover .about-image-bg {
+            transform: rotate(6deg);
+        }
+
+        .about-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Menu Section */
+        .menu {
+            position: relative;
+            background-color: var(--dark-green);
+            padding-bottom: 6rem;
+        }
+
+        .menu-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.02;
+            background-image: radial-gradient(circle, var(--gold) 2px, transparent 2px);
+            background-size: 80px 80px;
+        }
+
+        .menu-list {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .menu-category {
+            margin-bottom: 1rem;
+        }
+
+        .menu-category-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 168, 83, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .menu-item {
+            margin-bottom: 2rem;
+            border-bottom: 1px dashed rgba(212, 168, 83, 0.1);
+            padding-bottom: 1.5rem;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-title {
+            font-size: 1.35rem;
+            color: white;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .menu-item-price {
+            font-size: 1.25rem;
+            color: var(--gold);
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .menu-item-description {
+            color: #9ca3af;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Order Section */
+        .order {
+            position: relative;
+            background-color: var(--stone);
+            color: var(--dark-green);
+            text-align: center;
+        }
+
+        .order-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            background-image: radial-gradient(circle, var(--gold) 2px, transparent 2px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .order-content {
+            position: relative;
+            z-index: 10;
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        .order-text {
+            font-size: 1.25rem;
+            color: #374151;
+            margin-bottom: 3rem;
+            line-height: 1.75;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .order-button {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background-color: var(--dark-green);
+            color: var(--gold);
+            border: 2px solid var(--dark-green);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.1em;
+        }
+
+        .order-button:hover {
+            background-color: var(--gold);
+            color: var(--dark-green);
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact {
+            position: relative;
+            background-color: var(--darker-green);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            border: 2px solid var(--gold);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon {
+            background-color: var(--gold);
+        }
+
+        .contact-icon svg {
+            width: 1.75rem;
+            height: 1.75rem;
+            color: var(--gold);
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon svg {
+            color: var(--dark-green);
+        }
+
+        .contact-title {
+            font-size: 1.25rem;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-content {
+            color: #d1d5db;
+        }
+
+        .contact-content a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-content a:hover {
+            color: var(--gold);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--gold);
+            color: var(--dark-green);
+        }
+
+        .social-link svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-green);
+            border-top: 1px solid rgba(212, 168, 83, 0.1);
+            padding: 2rem;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-text {
+                font-size: 1.125rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-image-wrapper {
+                height: 300px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 4rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                height: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-logo {
+                width: 15rem;
+            }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <img src="logo_cruda_simple_white.png" alt="Cruda" class="logo">
+            <ul class="nav-links">
+                <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
+                <li><a href="#menú">Menú</a></li>
+                <li><a href="#pedir">Pedir</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="tortilla.jpg" alt="Cruda Background">
+            <div class="hero-overlay"></div>
+            <div class="hero-pattern"></div>
+        </div>
+
+        <div class="hero-content">
+            <img src="logo_cruda_simple_white.png" alt="Cruda" class="hero-logo">
+            <p class="hero-text">Tortillas hechas con calma y respeto por el producto</p>
+            <button class="cta-button" onclick="scrollToSection('pedir')">Pedir ahora</button>
+
+            <div class="scroll-indicator">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre-nosotros" class="about">
+        <div class="about-pattern"></div>
+
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title font-serif">Sobre <span class="accent">nosotros</span></h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-text reveal">
+                    <p>Tortillas melosas y delicadas, hechas con calma y respeto por el producto. Cada una de ellas nace de huevos camperos y de primera puesta de gallinas en libertad, producto de cercanía y manos que cuidan cada detalle.</p>
+                    <p>Sabrosas, honestas y llenas de verdad: un homenaje a nuestra tierra y a la manera más simple y a la vez más satisfactoria de disfrutar de una comida auténtica.</p>
+                </div>
+
+                <div class="about-image-wrapper reveal">
+                    <div class="about-image-bg"></div>
+                    <img src="caja.jpg" alt="Local Cruda" class="about-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menú" class="menu">
+        <div class="menu-pattern"></div>
+
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title font-serif">Nuestro <span class="accent">Menú</span></h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="menu-list">
+                <!-- Tortillas -->
+                <div class="menu-category reveal">
+                    <h3 class="menu-category-title font-serif">Tortillas de patata</h3>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Cruda</h4>
+                            <span class="menu-item-price">20,90€</span>
+                        </div>
+                        <p class="menu-item-description">Huevos camperos y de primera puesta, patata asturiana, cebolla dulce confitada y aceite de oliva virgen extra. La tradicional</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Sin Cebolla</h4>
+                            <span class="menu-item-price">20,90€</span>
+                        </div>
+                        <p class="menu-item-description">Huevos camperos y de primera puesta, patata asturiana y aceite de oliva virgen extra. Sin cebolla, pura esencia</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Trufa</h4>
+                            <span class="menu-item-price">22,90€</span>
+                        </div>
+                        <p class="menu-item-description">Nuestra versión gourmet. Huevos camperos y de primera puesta, patata asturiana, trufa negra y aceite de oliva virgen extra. Intensa y elegante</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Carbonara, Guanciale y Grana Padano</h4>
+                            <span class="menu-item-price">22,90€</span>
+                        </div>
+                        <p class="menu-item-description">Huevos camperos y de primera puesta, patata asturiana, Guanciale, queso Grana Padano D.O.P italiano rallado fino, yema extra para textura sedosa, pimienta negra y aceite de oliva virgen extra</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Cecina Black Angus y Queso de Cabra</h4>
+                            <span class="menu-item-price">22,90€</span>
+                        </div>
+                        <p class="menu-item-description">Huevos camperos y de primera puesta, patata asturiana, cecina Black Angus con sabor intenso y natural, queso de cabra y aceite de oliva virgen extra</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Puerro Confitado y Pimienta Rosa</h4>
+                            <span class="menu-item-price">21,90€</span>
+                        </div>
+                        <p class="menu-item-description">Huevos camperos y de primera puesta, patata asturiana, puerro confitado a baja temperatura, pimienta rosa recien molida y aceite de oliva virgen extra</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Chorizo Asturiano en su Jugo</h4>
+                            <span class="menu-item-price">21,90€</span>
+                        </div>
+                        <p class="menu-item-description">Huevos camperos y de primera puesta, patata asturiana, Chorizo asturiano Alto Nalón y aceite de oliva virgen extra aromatizado en su propio jugo para un sabor profundo</p>
+                    </div>
+                </div>
+
+                <!-- Tartas y helados -->
+                <div class="menu-category reveal">
+                    <h3 class="menu-category-title font-serif">Postres</h3>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Tarta de Queso Tradicional</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                        <p class="menu-item-description">Cremosa intensa y sin adornos. La tarta de queso como debe ser</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Tarta de Queso Kinder</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                        <p class="menu-item-description">Con una deliciosa mezcla de quesos y el inconfundible sabor del chocolate Kinder. Cada bocado es una explosión de sabor y recuerdo a la infancia</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Tarta de Queso y Lotus</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                        <p class="menu-item-description">Su presencia y energía desbordante se reflejan en cada bocado de nuestra Cheesecake de ensueño a base de galleta Lottus</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Tarta de Queso y Nutella</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                        <p class="menu-item-description">Distinguida, llena de sabor y de color cacao. Base de Nutella y la mejor selección de ingredientes naturales, te hará sacar tu lado más salvaje</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Tarrina Helado Turrón Diego Verdú</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                        <p class="menu-item-description">120 ml</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Bombón Helado de Turrón Diego Verdú</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Sandwich Helado de Turrón Diego Verdú</h4>
+                            <span class="menu-item-price">4,90€</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panes -->
+                <div class="menu-category reveal">
+                    <h3 class="menu-category-title font-serif">Nuestras hogazas</h3>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Trigo Paisano</h4>
+                            <span class="menu-item-price">3,90€</span>
+                        </div>
+                        <p class="menu-item-description">(50% de harina blanca 50% semi-integral, MM de semi-integral)</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Integral 100% Trigo</h4>
+                            <span class="menu-item-price">3,90€</span>
+                        </div>
+                        <p class="menu-item-description">(harina integral de trigo y Masa Madre de trigo integral)</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">Trigo con 5 Semillas</h4>
+                            <span class="menu-item-price">3,90€</span>
+                        </div>
+                        <p class="menu-item-description">(sésamo, amapola, lino, girasol y calabaza) Y AVENA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="pedir" class="order">
+        <div class="order-pattern"></div>
+
+        <div class="order-content">
+            <div class="section-header reveal">
+                <h2 class="section-title font-serif">Pedir <span class="accent">ahora</span></h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <p class="order-text reveal">Disponible por Glovo. Descubre nuestras tortillas gourmet, hechas con los mejores ingredientes y servidas con el máximo respeto por el producto.</p>
+
+            <a href="https://glovoapp.com/es/es/oviedo/stores/cruda-lab-oviedo" class="order-button reveal">Ir a Glovo</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title font-serif"><span class="accent">Contacto</span></h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-item reveal">
+                    <div class="contact-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="contact-title font-serif">Teléfono</h3>
+                    <div class="contact-content">
+                        <a href="tel:+34604863350">604 863 350</a>
+                    </div>
+                </div>
+
+                <div class="contact-item reveal">
+                    <div class="contact-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="contact-title font-serif">Email</h3>
+                    <div class="contact-content">
+                        <a href="mailto:cruda@crudalabco.com">cruda@crudalabco.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item reveal">
+                    <div class="contact-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="contact-title font-serif">Ubicación</h3>
+                    <div class="contact-content">
+                        Juan Escalante de Mendoza 16, 33009<br>
+                        Oviedo, Asturias
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links reveal">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                    <a href="https://www.instagram.com/crudalab.co/" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/crudalab.co/" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">@crudalab.co</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Cruda - Tortillas Gourmet. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Scroll navigation effects
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Add click handlers to nav links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                const targetId = href.substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        // Scroll reveal animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Initial check on page load
+    </script>
+</body>
+</html>
