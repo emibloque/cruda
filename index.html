@@ -17,6 +17,13 @@
 
 
     <style>
+        @font-face {
+            font-family: 'CrudaFont';
+            src: url('cruda.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -32,7 +39,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'CrudaFont', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background-color: var(--dark-green);
             color: white;
             line-height: 1.6;
@@ -40,7 +47,7 @@
         }
 
         .font-serif {
-            font-family: 'Playfair Display', Georgia, serif;
+            font-family: 'CrudaFont', 'Playfair Display', Georgia, serif;
         }
 
         /* Animations */
@@ -221,7 +228,7 @@
             cursor: pointer;
             border: none;
             font-size: 1rem;
-            font-family: 'Inter', sans-serif;
+            font-family: 'CrudaFont', 'Inter', sans-serif;
         }
 
         .cta-button:hover {
@@ -408,7 +415,7 @@
         .menu-item-title {
             font-size: 1.35rem;
             color: white;
-            font-family: 'Playfair Display', serif;
+            font-family: 'CrudaFont', 'Playfair Display', serif;
         }
 
         .menu-item-price {
@@ -581,6 +588,7 @@
         @media (max-width: 768px) {
             .nav-links {
                 gap: 1rem;
+                text-align: center;
             }
 
             .nav-links a {
@@ -646,7 +654,6 @@
         <div class="nav-container">
             <img src="logo_cruda_simple_white.png" alt="Cruda" class="logo">
             <ul class="nav-links">
-                <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
                 <li><a href="#menú">Menú</a></li>
                 <li><a href="#pedir">Pedir</a></li>
                 <li><a href="#contacto">Contacto</a></li>
@@ -687,8 +694,8 @@
 
             <div class="about-content">
                 <div class="about-text reveal">
-                    <p>Tortillas melosas y delicadas, hechas con calma y respeto por el producto. Cada una de ellas nace de huevos camperos y de primera puesta de gallinas en libertad, producto de cercanía y manos que cuidan cada detalle.</p>
-                    <p>Sabrosas, honestas y llenas de verdad: un homenaje a nuestra tierra y a la manera más simple y a la vez más satisfactoria de disfrutar de una comida auténtica.</p>
+                    <p>En Cruda tenemos una fijación bastante clara. Que cuando pienses en tortilla, pienses en esa tortilla que te pide el cuerpo cuando quieres darte un homenaje de verdad. Nada de rellenos raros ni fuegos artificiales. Solo una idea muy simple que cuidamos al milímetro.</p>
+                    <p>Por eso elegimos huevos camperos y de primera puesta, patata de productores cercanos y aceite de oliva virgen extra. Lo notarás en el sabor, en cómo se funde la patata, en esa jugosidad que hace que tengas que coger otro trozo aunque digas que no tienes hambre. Si añadimos cecina, trufa o queso es porque de verdad se lo ganan. Aquí nada entra porque sí.</p>
                 </div>
 
                 <div class="about-image-wrapper reveal">
@@ -858,6 +865,28 @@
                         <p class="menu-item-description">(sésamo, amapola, lino, girasol y calabaza) Y AVENA</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Menu Image -->
+    <div class="reveal">
+        <img src="hero_menu.jpg" alt="Cruda Menu" style="width: 100%; height: auto; display: block;">
+    </div>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy">
+        <div class="menu-pattern"></div>
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title font-serif">Nuestra <span class="accent">Filosofía</span></h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="order-text reveal" style="color: #d1d5db;">
+                <p style="margin-bottom: 1.5rem;">Hacemos pocas cosas, pero las hacemos con calma, a fuego lento y con las manos. Probamos, afinamos y repetimos hasta que la tortilla queda como tiene que quedar. Una tortilla con ingredientes reales y sin tonterías, pensada para que la disfrutes tú y se sientan orgullosxs quienes la han hecho posible.</p>
+                <p style="margin-bottom: 1.5rem;">Esto es Cruda. Tortilla bien hecha, de la que convierte cualquier quedada en planazo.</p>
+                <p style="font-weight: 600; font-size: 1.5rem; color: var(--gold); margin-top: 2rem;">Bienvenido a Cruda.<br>Aquí la tortilla no se hace, se cuida.</p>
             </div>
         </div>
     </section>
